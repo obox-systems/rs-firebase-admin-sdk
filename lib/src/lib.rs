@@ -64,8 +64,8 @@ impl App<GcpCredentials> {
     ) -> Result<Self, Report<CredentialsError>> {
         let project_id = credentials
             .project_id()
-            .await
-            .change_context(CredentialsError::Internal)?;
+            .ok_or(CredentialsError::Internal)?
+            .to_string();
 
         Ok(Self {
             credentials,
